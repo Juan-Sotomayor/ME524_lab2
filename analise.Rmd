@@ -1,0 +1,91 @@
+
+---
+title: "ME524 — Laboratório 2"
+subtitle: "Modelo de Poisson Inflado em Zero"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+# 1. Preparação dos dados
+
+O conjunto de dados apresenta o número anual de consultas
+médicas de clientes divididos em três perfis de risco.
+
+```{r dados}
+dados <- read.csv("data/visitas_medicas.csv")
+
+visitas_por_perfil <- split(
+  dados$visitas,
+  factor(
+    dados$perfil,
+    levels = c("baixo", "medio", "alto")
+  )
+)
+
+resumo <- t(sapply(visitas_por_perfil, function(y) {
+  c(
+    n = length(y),
+    zeros = sum(y == 0),
+    proporcao_zeros = mean(y == 0),
+    soma = sum(y),
+    media = mean(y),
+    variancia = var(y)
+  )
+}))
+
+knitr::kable(
+  round(resumo, 4),
+  caption = "Estatísticas descritivas por perfil de risco"
+)
+```
+
+# 2. Otimização numérica
+
+## 2.1 Estimação por máxima verossimilhança
+
+## 2.2 Equações de score — Questão 1
+
+## 2.3 Newton-Raphson — Questão 2
+
+# 3. Algoritmo EM
+
+## 3.1 Derivação — Questão 3
+
+## 3.2 Implementação e convergência — Questão 4
+
+# 4. Inferência Bayesiana via MCMC
+
+## 4.1 Condicionais completas
+
+## 4.2 Gibbs Sampler
+
+## 4.3 Diagnósticos e comparação
+
+# 5. Aplicação prática
+
+## 5.1 Valor esperado
+
+## 5.2 Precificação por perfil
+
+# 6. Exportação para Overleaf
+
+Esta seção será responsável pela geração dos arquivos
+necessários ao relatório final em LaTeX:
+
+- Figuras vetoriais em PDF.
+- Tabelas formatadas em LaTeX.
+- Resultados comparativos entre os métodos.
+
+Os arquivos serão gerados em:
+
+`relatorio/overleaf/assets/`
+
+A exportação utilizará os objetos calculados nas seções
+anteriores, sem executar novamente os algoritmos.
